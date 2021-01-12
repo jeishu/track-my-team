@@ -3,7 +3,6 @@ const inquirer = require("inquirer");
 const mysql = require("mysql");
 const consoleTable = require("console.table");
 
-
 // ================ Connection ================
 const connection = mysql.createConnection({
     host: "localhost",
@@ -224,14 +223,12 @@ const addDepartment = () => {
 }
 
 const updateEmployeeRoles = () => {
-    let employeeArray = [];
-    let roleArray = [];
     connection.query("SELECT * FROM employee;", function(err, res) {
         if(err) throw err;
         inquirer.prompt([
             {
                 name: "lastName",
-                type: "list",
+                type: "rawlist",
                 choices: selectEmployee(),
                 message: "Which employee's role are you changing?"
             },
@@ -239,19 +236,26 @@ const updateEmployeeRoles = () => {
                 name: "roles",
                 type: "rawlist",
                 choices: selectRole(),
-                message: "Which roles would you like to change?"
+                message: "What is the employee's new role?"
             }
         ])
         .then(function(answer) {
-            connection.query("UPDATE employee SET role_id = ? WHERE id = ?",
+            const roleID = selectRole().indexOf(answer.selectRole) + 1;
+            connection.query("UPDATE employee SET role_id = ? WHERE last_name = ?",
             {
                 last_name: answer.lastName
             },
-            )
-
-        })
-    })
-}
+            {
+                role_id: roleID
+            },
+            function(err) {
+                if(err)throw err;
+                console.table(answer);
+                startPrompt();
+            })
+        });
+    });
+};
 // const updateManager = () => {}
 
 // const deleteEmployee = () => {}
@@ -291,12 +295,6 @@ const selectEmployee = () => {
     })
     return employeeList;
 };
-// var deptNum = [];
-// const deptNumFunc = () => {
-//     connection.query("SELECT * FROM department", function(err, res){
-
-//     }) 
-// }
 
 // ================ Validation Functions ================
 const validInput = (input, type) => {
@@ -306,5 +304,7 @@ const validInput = (input, type) => {
     return true;
 }
 
+// ================ Calling Functions ================
 selectRole();
 selectManager();
+selectEmployee();
