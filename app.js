@@ -155,8 +155,8 @@ const addEmployee = () => {
         {
             first_name: answer.firstName,
             last_name: answer.lastName,
-            role_id: roleID, // Not working
-            manager_id: managerID // Not working
+            role_id: roleID,
+            manager_id: managerID
         },
         function (err) {
             if (err) throw err
@@ -240,14 +240,13 @@ const updateEmployeeRoles = () => {
             }
         ])
         .then(function(answer) {
-            const roleID = selectRole().indexOf(answer.selectRole) + 1;
+            const roleID = selectRole().indexOf(answer.roles) + 1;
+            console.log(roleID);
             connection.query("UPDATE employee SET role_id = ? WHERE last_name = ?",
-            {
-                last_name: answer.lastName
-            },
-            {
-                role_id: roleID
-            },
+            [
+                roleID,
+                answer.lastName 
+            ],
             function(err) {
                 if(err)throw err;
                 console.table(answer);
@@ -256,8 +255,8 @@ const updateEmployeeRoles = () => {
         });
     });
 };
-// const updateManager = () => {}
 
+// const updateManager = () => {}
 // const deleteEmployee = () => {}
 // const deleteRole = () => {}
 // const deleteDepartment = () => {}

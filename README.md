@@ -28,11 +28,11 @@ Main Features:
 ## Links
 
 * Project Repo: [Repository](https://github.com/jeishu/track-my-team)
-* Video Demo: [Link]()
+* Video Demo: [Link](https://drive.google.com/file/d/118iDDsOkW16nNrlX02p-yEHUaN6oYMQI/view)
 
 ## Demo
 
-![demo](./public/img/demo.gif)
+![demo](./assets/demo-pic.png)
 
 ## Language
 
@@ -70,6 +70,7 @@ These websites aid me in creating this README.
 ## Contribute/Credits
 
 I used npm i for installation and Inquirer and Mysql for the this application.
+- Shoutout to my classmate Joey for helping with MYSQL syntax and Javascript code.
 
 ## License
 
